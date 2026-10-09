@@ -3,25 +3,6 @@ import streamlit as st
 # 1. 웹 화면 제목과 설명
 st.set_page_config(page_title="Big5 심리검사", page_icon="📊")
 st.title("📊 Big5 심리검사 프로그램")
-# ---- 라디오 버튼 글씨 크기 조절용 CSS 코드 추가 ----
-st.markdown(
-    """
-    <style>
-    /* 1. 질문(Label) 글씨 크기 조절 */
-    div[data-testid="stRadio"] > label > div > p {
-        font-size: 20px !important;  /* 👈 여기에 원하는 질문 크기를 적으세요 (예: 20px) */
-        font-weight: bold;           /* 👈 질문 굵게 만들기 (빼도 됩니다) */
-    }
-    
-    /* 2. 동그라미 옆의 보기(Options) 글씨 크기 조절 */
-    div[data-testid="stRadio"] > div > label > div > div > p {
-        font-size: 16px !important;  /* 👈 여기에 원하는 보기 글씨 크기를 적으세요 (예: 16px) */
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-# ------------------------------------------------
 st.write("각 질문을 읽고 응답해주세요.")
 st.write("---")
 
@@ -91,8 +72,7 @@ with st.form("survey_form"):
     # 질문을 하나씩 웹 화면에 띄우기
     for q in questions:
         # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        options = ["전혀 아니다", "아니다", "보통이다", "그렇다", "매우 그렇다"]
-        answer = st.radio(q["질문"], options, horizontal=True, index=None)
+        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True, index=None)
         user_answers.append((q, answer))
         st.write("")  # 질문 사이 간격 띄우기
 
@@ -118,18 +98,6 @@ if submitted:
         scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
 
         for q, ans in user_answers:
-            # 선택한 글자를 계산할 수 있게 숫자로 바꿔주기
-            if ans == "전혀 아니다":
-                num_ans = 1
-            elif ans == "아니다":
-                num_ans = 2
-            elif ans == "보통이다":
-                num_ans = 3
-            elif ans == "그렇다":
-                num_ans = 4
-            elif ans == "매우 그렇다":
-                num_ans = 5
-
             # 역채점 계산
             if q["역채점"] == True:
                 final_score = 6 - num_ans
