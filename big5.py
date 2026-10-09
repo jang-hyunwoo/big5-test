@@ -64,11 +64,11 @@ questions = [
     {"유형": "N", "질문": "45. 기분이 자주 오르락내리락하는 편이다.", "역채점": False}
 ]
 
-q1 = question[0:9]
-q2 = question[9:18]
-q3 = question[18:27]
-q4 = question[27:36]
-q5 = question[36:45]
+q1 = questions[0:9]
+q2 = questions[9:18]
+q3 = questions[18:27]
+q4 = questions[27:36]
+q5 = questions[36:45]
 
 # 3. 설문지 폼 만들기 (버튼을 누를 때 한 번에 제출되도록)
 with st.form("survey_form"):
