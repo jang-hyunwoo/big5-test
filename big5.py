@@ -72,35 +72,61 @@ with st.form("survey_form"):
     # 질문을 하나씩 웹 화면에 띄우기
     for q in questions:
         # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True, index=None)
+        options = ["전혀 아니다", "아니다", "보통이다", "그렇다", "매우 그렇다"]
+        answer = st.radio(q["질문"], options, horizontal=True, index=None)
         user_answers.append((q, answer))
         st.write("")  # 질문 사이 간격 띄우기
 
     # 제출 버튼
-    submitted = st.form_submit_button("결과 보기 🚀")
+    submitted = st.form_submit_button("결과 보기")
 
 # 4. '결과 보기' 버튼을 눌렀을 때 실행될 로직
 if submitted:
-    # 점수 저장소 초기화
-    scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
-
+    # 답변을 안 한 문항이 있는지 먼저 검사하기
+    is_all_answered = True
     for q, ans in user_answers:
-        # 역채점 계산
-        if q["역채점"] == True:
-            final_score = 6 - ans
-        else:
-            final_score = ans
+        if ans == None:
+            is_all_answered = False
+            break # 빈칸을 하나라도 발견하면 더 이상 안 찾고 멈춤
 
-        # 점수 더하기
-        scores[q["유형"]] += final_score
+    # 빈칸이 있다면 경고 메시지 띄우기
+    if is_all_answered == False:
+        st.error("⚠️ 아직 답변하지 않은 문항이 있습니다. 모든 질문에 답한 후 다시 제출해주세요!")
+        
+    # 빈칸이 없다면 정상적으로 점수 계산해서 결과 보여주기
+    else:
+        # 점수 저장소 초기화
+        scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
 
-    # 5. 웹 화면에 결과 예쁘게 띄우기
-    st.write("---")
-    st.subheader("🎉 당신의 Big5 검사 결과")
-    st.success("검사가 성공적으로 완료되었습니다!")
+        for q, ans in user_answers:
+            # 선택한 '글자'를 계산할 수 있게 '숫자'로 바꿔주기
+            if ans == "전혀 아니다":
+                num_ans = 1
+            elif ans == "아니다":
+                num_ans = 2
+            elif ans == "보통이다":
+                num_ans = 3
+            elif ans == "그렇다":
+                num_ans = 4
+            elif ans == "매우 그렇다":
+                num_ans = 5
 
-    st.info(f"🔹 개방성 (O) : {scores['O']}/45")
-    st.info(f"🔹 성실성 (C) : {scores['C']}/45")
-    st.info(f"🔹 외향성 (E) : {scores['E']}/45")
-    st.info(f"🔹 우호성 (A) : {scores['A']}/45")
-    st.info(f"🔹 신경성 (N) : {scores['N']}/45")
+            # 역채점 계산
+            if q["역채점"] == True:
+                final_score = 6 - num_ans
+            else:
+                final_score = num_ans
+
+            # 점수 더하기
+            scores[q["유형"]] += final_score
+
+        # 5. 웹 화면에 결과 예쁘게 띄우기
+        st.write("---")
+        st.subheader("🎉 당신의 Big5 검사 결과")
+        st.success("검사가 성공적으로 완료되었습니다!")
+
+        st.info(f"🔹 개방성 (O) : {scores['O']}점 (최대 45점)")
+        st.info(f"🔹 성실성 (C) : {scores['C']}점 (최대 45점)")
+        st.info(f"🔹 외향성 (E) : {scores['E']}점 (최대 45점)")
+        st.info(f"🔹 우호성 (A) : {scores['A']}점 (최대 45점)")
+        st.info(f"🔹 신경성 (N) : {scores['N']}점 (최대 45점)")
