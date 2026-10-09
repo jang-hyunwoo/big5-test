@@ -72,7 +72,7 @@ with st.form("survey_form"):
     # 질문을 하나씩 웹 화면에 띄우기
     for q in questions:
         # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        answer = st.radio(q["질문"], [1(전혀 아니다), 2(아니다), 3(보통이다), 4(그렇다), 5(매우 그렇다)], horizontal=True)
+        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
         user_answers.append((q, answer))
         st.write("")  # 질문 사이 간격 띄우기
 
