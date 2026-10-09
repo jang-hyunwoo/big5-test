@@ -3,7 +3,7 @@ import streamlit as st
 # 1. 웹 화면 제목과 설명
 st.set_page_config(page_title="Big5 심리검사", page_icon="📊")
 st.title("📊 Big5 심리검사 프로그램")
-st.write("각 질문을 읽고 응답해주세요.")
+st.subtitle("각 질문을 읽고 응답해주세요.")
 st.write("---")
 
 # 2. 질문 목록 만들기 (총 45문항)
