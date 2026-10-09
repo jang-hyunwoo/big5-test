@@ -3,7 +3,26 @@ import streamlit as st
 # 1. 웹 화면 제목과 설명
 st.set_page_config(page_title="Big5 심리검사", page_icon="📊")
 st.title("📊 Big5 심리검사 프로그램")
-st.subheader("각 질문을 읽고 응답해주세요.")
+# ---- 라디오 버튼 글씨 크기 조절용 CSS 코드 추가 ----
+st.markdown(
+    """
+    <style>
+    /* 1. 질문(Label) 글씨 크기 조절 */
+    div[data-testid="stRadio"] > label > div > p {
+        font-size: 20px !important;  /* 👈 여기에 원하는 질문 크기를 적으세요 (예: 20px) */
+        font-weight: bold;           /* 👈 질문 굵게 만들기 (빼도 됩니다) */
+    }
+    
+    /* 2. 동그라미 옆의 보기(Options) 글씨 크기 조절 */
+    div[data-testid="stRadio"] > div > label > div > div > p {
+        font-size: 16px !important;  /* 👈 여기에 원하는 보기 글씨 크기를 적으세요 (예: 16px) */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+# ------------------------------------------------
+st.write("각 질문을 읽고 응답해주세요.")
 st.write("---")
 
 # 2. 질문 목록 만들기 (총 45문항)
