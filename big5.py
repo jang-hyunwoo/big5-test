@@ -72,7 +72,7 @@ with st.form("survey_form"):
     # 질문을 하나씩 웹 화면에 띄우기
     for q in questions:
         # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        options = ["전혀 아니다", "아니다", "조금 아니다", "보통이다", "조금 그렇다", "그렇다", "매우 그렇다"]
+        options = ["전혀 아니다", "아니다", "보통이다", "그렇다", "매우 그렇다"]
         answer = st.radio(q["질문"], options, horizontal=False, index=None)
         user_answers.append((q, answer))
         st.write("")  # 질문 사이 간격 띄우기
@@ -104,20 +104,16 @@ if submitted:
                 num_ans = 1
             elif ans == "아니다":
                 num_ans = 2
-            elif ans == "조금 그렇다":
-                num_ans = 3
             elif ans == "보통이다":
-                num_ans = 4
-            elif ans == "조금 그렇다":
-                num_ans = 5
+                num_ans = 3
             elif ans == "그렇다":
-                num_ans = 6
+                num_ans = 4
             elif ans == "매우 그렇다":
-                num_ans = 7
+                num_ans = 5
 
             # 역채점 계산
             if q["역채점"] == True:
-                final_score = 8 - num_ans
+                final_score = 6 - num_ans
             else:
                 final_score = num_ans
 
@@ -129,13 +125,13 @@ if submitted:
         st.subheader("당신의 Big5 검사 결과")
         st.success("검사가 성공적으로 완료되었습니다!")
 
-        st.info(f"🔹 개방성 (O) : {scores['O']}/63\n\n"
+        st.info(f"🔹 개방성 (O) : {scores['O']}/45\n\n"
                f"새로운 경험과 아이디어를 기꺼이 받아들이는 정도입니다. 호기심이 많고 상상력이 풍부하며, 예술적인 아름다움을 잘 느끼는 성향을 나타냅니다.")
-        st.info(f"🔹 성실성 (C) : {scores['C']}/63n\n"
+        st.info(f"🔹 성실성 (C) : {scores['C']}/45n\n"
                f"목표를 향해 꾸준하고 계획적으로 노력하는 정도입니다. 책임감이 강하고 규칙을 잘 지키며, 일을 미루지 않고 끝까지 해내는 성향을 나타냅니다.")
-        st.info(f"🔹 외향성 (E) : {scores['E']}/63\n\n"
+        st.info(f"🔹 외향성 (E) : {scores['E']}/45\n\n"
                f"외부 세계와 사람들과의 교류를 통해 에너지를 얻는 정도입니다. 사교적이고 활발하며, 매사에 긍정적인 감정을 자주 느끼는 성향을 나타냅니다.")
-        st.info(f"🔹 우호성 (A) : {scores['A']}/63\n\n"
+        st.info(f"🔹 우호성 (A) : {scores['A']}/45\n\n"
                f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아하는 성향을 나타냅니다.")
-        st.info(f"🔹 신경성 (N) : {scores['N']}/63\n\n"
+        st.info(f"🔹 신경성 (N) : {scores['N']}/45\n\n"
                f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
