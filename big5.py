@@ -64,13 +64,51 @@ questions = [
     {"유형": "N", "질문": "45. 기분이 자주 오르락내리락하는 편이다.", "역채점": False}
 ]
 
+q1 = question[0:9]
+q2 = question[9:18]
+q3 = question[18:27]
+q4 = question[27:36]
+q5 = question[36:45]
+
 # 3. 설문지 폼 만들기 (버튼을 누를 때 한 번에 제출되도록)
 with st.form("survey_form"):
     # 사용자가 선택한 점수를 저장할 리스트
     user_answers = []
 
     # 질문을 하나씩 웹 화면에 띄우기
-    for q in questions:
+    for q in q1:
+        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
+        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
+        user_answers.append((q, answer))
+        st.write("")  # 질문 사이 간격 띄우기
+    st.session_state.page += 1
+    st.rerun()
+    
+    for q in q2:
+        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
+        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
+        user_answers.append((q, answer))
+        st.write("")  # 질문 사이 간격 띄우기
+    st.session_state.page += 1
+    st.rerun()
+
+    for q in q3:
+        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
+        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
+        user_answers.append((q, answer))
+        st.write("")  # 질문 사이 간격 띄우기
+    st.session_state.page += 1
+    st.rerun()
+
+    for q in q4:
+        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
+        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
+        user_answers.append((q, answer))
+        st.write("")  # 질문 사이 간격 띄우기
+    st.session_state.page += 1
+    st.rerun()
+
+    for q in q5:
         # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
         answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
         user_answers.append((q, answer))
@@ -99,8 +137,8 @@ if submitted:
     st.subheader("🎉 당신의 Big5 검사 결과")
     st.success("검사가 성공적으로 완료되었습니다!")
 
-    st.info(f"🔹 개방성 (O) : {scores['O']}점/45점")
-    st.info(f"🔹 성실성 (C) : {scores['C']}점/45점")
-    st.info(f"🔹 외향성 (E) : {scores['E']}점/45점")
-    st.info(f"🔹 우호성 (A) : {scores['A']}점/45점")
-    st.info(f"🔹 신경성 (N) : {scores['N']}점/45점")
+    st.info(f"🔹 개방성 (O) : {scores['O']}/45")
+    st.info(f"🔹 성실성 (C) : {scores['C']}/45")
+    st.info(f"🔹 외향성 (E) : {scores['E']}/45")
+    st.info(f"🔹 우호성 (A) : {scores['A']}/45")
+    st.info(f"🔹 신경성 (N) : {scores['N']}/45")
