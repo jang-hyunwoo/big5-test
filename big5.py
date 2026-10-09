@@ -1,5 +1,11 @@
 import streamlit as st
 
+# 0. 세션 상태 초기화 (페이지 번호, 전체 응답 저장용)
+if "page" not in st.session_state:
+    st.session_state.page = 1
+if "all_user_answers" not in st.session_state:
+    st.session_state.all_user_answers = []
+
 # 1. 웹 화면 제목과 설명
 st.set_page_config(page_title="Big5 심리검사", page_icon="📊")
 st.title("📊 Big5 심리검사 프로그램")
@@ -70,59 +76,82 @@ q3 = questions[18:27]
 q4 = questions[27:36]
 q5 = questions[36:45]
 
-# 3. 설문지 폼 만들기 (버튼을 누를 때 한 번에 제출되도록)
-with st.form("survey_form"):
-    # 사용자가 선택한 점수를 저장할 리스트
-    user_answers = []
+# 3. 페이지별 질문 렌더링 및 폼 제출 로직
+if st.session_state.page == 1:
+    with st.form("survey_form_1"):
+        user_answers = []
+        for q in q1:
+            answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        
+        submitted = st.form_submit_button("다음 페이지로 ➡️")
+        if submitted:
+            st.session_state.all_user_answers.extend(user_answers)
+            st.session_state.page += 1
+            st.rerun()
 
-    # 질문을 하나씩 웹 화면에 띄우기
-    for q in q1:
-        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
-        user_answers.append((q, answer))
-        st.write("")  # 질문 사이 간격 띄우기
-    st.session_state.page += 1
-    st.rerun()
-    
-    for q in q2:
-        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
-        user_answers.append((q, answer))
-        st.write("")  # 질문 사이 간격 띄우기
-    st.session_state.page += 1
-    st.rerun()
+elif st.session_state.page == 2:
+    with st.form("survey_form_2"):
+        user_answers = []
+        for q in q2:
+            answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        
+        submitted = st.form_submit_button("다음 페이지로 ➡️")
+        if submitted:
+            st.session_state.all_user_answers.extend(user_answers)
+            st.session_state.page += 1
+            st.rerun()
 
-    for q in q3:
-        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
-        user_answers.append((q, answer))
-        st.write("")  # 질문 사이 간격 띄우기
-    st.session_state.page += 1
-    st.rerun()
+elif st.session_state.page == 3:
+    with st.form("survey_form_3"):
+        user_answers = []
+        for q in q3:
+            answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        
+        submitted = st.form_submit_button("다음 페이지로 ➡️")
+        if submitted:
+            st.session_state.all_user_answers.extend(user_answers)
+            st.session_state.page += 1
+            st.rerun()
 
-    for q in q4:
-        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
-        user_answers.append((q, answer))
-        st.write("")  # 질문 사이 간격 띄우기
-    st.session_state.page += 1
-    st.rerun()
+elif st.session_state.page == 4:
+    with st.form("survey_form_4"):
+        user_answers = []
+        for q in q4:
+            answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        
+        submitted = st.form_submit_button("다음 페이지로 ➡️")
+        if submitted:
+            st.session_state.all_user_answers.extend(user_answers)
+            st.session_state.page += 1
+            st.rerun()
 
-    for q in q5:
-        # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
-        answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True)
-        user_answers.append((q, answer))
-        st.write("")  # 질문 사이 간격 띄우기
+elif st.session_state.page == 5:
+    with st.form("survey_form_5"):
+        user_answers = []
+        for q in q5:
+            answer = st.radio(q["질문"], [1, 2, 3, 4, 5], horizontal=True, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        
+        submitted = st.form_submit_button("결과 보기 🚀")
+        if submitted:
+            st.session_state.all_user_answers.extend(user_answers)
+            st.session_state.page += 1
+            st.rerun()
 
-    # 제출 버튼
-    submitted = st.form_submit_button("결과 보기 🚀")
-
-# 4. '결과 보기' 버튼을 눌렀을 때 실행될 로직
-if submitted:
-    # 점수 저장소 초기화
+# 4. 결과 보기 화면
+elif st.session_state.page == 6:
     scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
 
-    for q, ans in user_answers:
+    for q, ans in st.session_state.all_user_answers:
         # 역채점 계산
         if q["역채점"] == True:
             final_score = 6 - ans
@@ -142,3 +171,9 @@ if submitted:
     st.info(f"🔹 외향성 (E) : {scores['E']}/45")
     st.info(f"🔹 우호성 (A) : {scores['A']}/45")
     st.info(f"🔹 신경성 (N) : {scores['N']}/45")
+    
+    # 다시 하기 버튼 추가 (선택 사항)
+    if st.button("처음부터 다시 검사하기"):
+        st.session_state.page = 1
+        st.session_state.all_user_answers = []
+        st.rerun()
