@@ -73,7 +73,7 @@ with st.form("survey_form"):
     for q in questions:
         # 웹에 라디오 버튼(동그라미 선택 버튼) 만들기
         options = ["전혀 아니다", "아니다", "보통이다", "그렇다", "매우 그렇다"]
-        answer = st.radio(q["질문"], options, horizontal=False, index=None)
+        answer = st.radio(q["질문"], options, horizontal=True, index=None)
         user_answers.append((q, answer))
         st.write("")  # 질문 사이 간격 띄우기
 
@@ -99,7 +99,7 @@ if submitted:
         scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
 
         for q, ans in user_answers:
-            # 선택한 '글자'를 계산할 수 있게 '숫자'로 바꿔주기
+            # 선택한 글자를 계산할 수 있게 숫자로 바꿔주기
             if ans == "전혀 아니다":
                 num_ans = 1
             elif ans == "아니다":
