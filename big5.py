@@ -99,8 +99,8 @@ if submitted:
     st.subheader("🎉 당신의 Big5 검사 결과")
     st.success("검사가 성공적으로 완료되었습니다!")
 
-    st.info(f"🔹 개방성 (O) : {scores['O']}점")
-    st.info(f"🔹 성실성 (C) : {scores['C']}점")
-    st.info(f"🔹 외향성 (E) : {scores['E']}점")
-    st.info(f"🔹 우호성 (A) : {scores['A']}점")
-    st.info(f"🔹 신경성 (N) : {scores['N']}점")
+    st.info(f"🔹 개방성 (O) : {scores['O']}점/45점")
+    st.info(f"🔹 성실성 (C) : {scores['C']}점/45점")
+    st.info(f"🔹 외향성 (E) : {scores['E']}점/45점")
+    st.info(f"🔹 우호성 (A) : {scores['A']}점/45점")
+    st.info(f"🔹 신경성 (N) : {scores['N']}점/45점")
