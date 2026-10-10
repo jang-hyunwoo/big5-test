@@ -123,5 +123,5 @@ if submitted:
         st.write("---")
         st.subheader("🎉 다섯 가지 성향 비교")
         scores1 = list(scores.items())
-        scores1.sort(reverse = True)
+        scores1.sort(reverse = True, key = lambda)
         st.info(f"{scores1[0]}>{scores1[1]}>{scores1[2]}>{scores1[3]}>{scores1[4]}")
