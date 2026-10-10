@@ -109,8 +109,6 @@ if submitted:
         # 5. 웹 화면에 결과 예쁘게 띄우기
         st.divider()
         st.subheader("🎉 당신의 Big5 검사 결과")
-        st.success("검사가 성공적으로 완료되었습니다!")
-
         st.info(f"🔹개방성 (O) : {scores['O']}/45\n\n"
                 f"새로운 경험과 아이디어를 기꺼이 받아들이는 정도입니다. 호기심이 많고 상상력이 풍부하며, 예술적인 아름다움을 잘 느끼는 성향을 나타냅니다.")
         st.info(f"🔹성실성 (C) : {scores['C']}/45\n\n"
@@ -121,4 +119,4 @@ if submitted:
                 f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아하는 성향을 나타냅니다.")
         st.info(f"🔹신경성 (N) : {scores['N']}/45\n\n"
                 f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
-        st.bar_chart(data=scores, x=None, y=None, x_label='항목', y_label='점수', color="#F18AF8", horizontal=False, sort=False, stack=None, width="stretch", height='content', use_container_width=None, alt=None)
+        st.bar_chart(data=scores, x=None, y=None, x_label='항목', y_label='점수', color="FFFFFF", horizontal=False, sort=False, stack=None, width="stretch", height='content', use_container_width=None, alt=None)
