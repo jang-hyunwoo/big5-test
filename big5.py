@@ -1,7 +1,22 @@
 import streamlit as st
 
-# 1. 웹 화면 제목과 설명
+# 0. 세션 상태 초기화
+if "page" not in st.session_state:
+    st.session_state.page = 1
+if "p1" not in st.session_state:
+    st.session_state.p1 = []
+if "p2" not in st.session_state:
+    st.session_state.p2 = []
+if "p3" not in st.session_state:
+    st.session_state.p3 = []
+if "p4" not in st.session_state:
+    st.session_state.p4 = []
+if "p5" not in st.session_state:
+    st.session_state.p5 = []
+
+# 1. 웹 화면 기본 설정 및 CSS 디자인 입히기
 st.set_page_config(page_title="Big5 심리검사", page_icon="📊")
+
 st.markdown("""
 <style>
     /* 1. 라디오 버튼 글씨 크기 조절 */
@@ -53,13 +68,13 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
 st.title("📊 Big5 심리검사 프로그램")
-st.write("각 질문을 읽고 응답해주세요(1: 전혀 아니다 ~ 5: 매우 그렇다)")
+st.write("각 질문을 읽고 자신과 가장 잘 맞는 것을 선택해주세요.")
 st.write("---")
 
 # 2. 질문 목록 만들기 (총 45문항)
 questions = [
-    # O - 개방성 (9문항)
     {"유형": "O", "질문": "1. 새로운 아이디어나 방식을 시도해보는 것을 좋아한다.", "역채점": False},
     {"유형": "O", "질문": "2. 모르는 분야에 대해서도 알아보고 싶어진다.", "역채점": False},
     {"유형": "O", "질문": "3. 낯선 장소에 가면 그곳을 둘러보고 싶어진다.", "역채점": False},
@@ -69,8 +84,6 @@ questions = [
     {"유형": "O", "질문": "7. 미술관, 전시회 등에서 아름다움을 느낀 적이 있다.", "역채점": False},
     {"유형": "O", "질문": "8. 색다른 스타일의 음악이나 예술을 접하는 것을 좋아한다.", "역채점": False},
     {"유형": "O", "질문": "9. 평범한 사물에서도 아름다움을 발견할 때가 있다.", "역채점": False},
-
-    # C - 성실성 (9문항)
     {"유형": "C", "질문": "10. 자기가 맡은 일을 책임감 있게 하는 편이다.", "역채점": False},
     {"유형": "C", "질문": "11. 어떤 일을 포기하지 않고 끈기있게 하는 편이다.", "역채점": False},
     {"유형": "C", "질문": "12. 한번 시작한 일은 끝까지 마무리하는 편이다.", "역채점": False},
@@ -80,8 +93,6 @@ questions = [
     {"유형": "C", "질문": "16. 일을 처리할 때 미루는 편이다.", "역채점": True},
     {"유형": "C", "질문": "17. 미리 계획을 세우고 그대로 실행하는 편이다.", "역채점": False},
     {"유형": "C", "질문": "18. 하루 일과를 계획적으로 보내는 편이다.", "역채점": False},
-
-    # E - 외향성 (9문항)
     {"유형": "E", "질문": "19. 나는 새로운 친구를 사귀는 것이 두렵지 않다.", "역채점": False},
     {"유형": "E", "질문": "20. 어색한 분위기를 잘 풀어나가는 편이다.", "역채점": False},
     {"유형": "E", "질문": "21. 모임이나 행사에서 먼저 말을 거는 편이다.", "역채점": False},
@@ -91,8 +102,6 @@ questions = [
     {"유형": "E", "질문": "25. 새로운 일을 시작할 때 긍정적인 마음을 가지는 편이다.", "역채점": False},
     {"유형": "E", "질문": "26. 나는 쉽게 기운이 빠지고 좌절하는 편이다.", "역채점": True},
     {"유형": "E", "질문": "27. 평소 기분이 좋은 편이다.", "역채점": False},
-
-    # A - 우호성 (9문항)
     {"유형": "A", "질문": "28. 나는 친구와 의견이 달라도 상대방의 입장을 생각한다.", "역채점": False},
     {"유형": "A", "질문": "29. 다른 사람이 속상해하면 나도 함께 마음이 쓰인다.", "역채점": False},
     {"유형": "A", "질문": "30. 나는 내 생각이 다른 사람의 생각보다 더 중요하다고 여긴다.", "역채점": True},
@@ -102,8 +111,6 @@ questions = [
     {"유형": "A", "질문": "34. 나는 다른 사람과 협력하여 일을 하는 것을 좋아한다.", "역채점": False},
     {"유형": "A", "질문": "35. 나는 다른 사람의 부탁을 잘 들어주는 편이다.", "역채점": False},
     {"유형": "A", "질문": "36. 모둠 활동에서 내 역할을 다하려고 노력한다.", "역채점": False},
-
-    # N - 신경성 (9문항)
     {"유형": "N", "질문": "37. 새로운 곳에 갔을 때 불안하다.", "역채점": False},
     {"유형": "N", "질문": "38. 평소 미래 상황에 대한 걱정을 많이 하는 편이다.", "역채점": False},
     {"유형": "N", "질문": "39. 별일 아닌 일에도 마음이 조마조마할 때가 있다.", "역채점": False},
@@ -115,64 +122,179 @@ questions = [
     {"유형": "N", "질문": "45. 기분이 자주 오르락내리락하는 편이다.", "역채점": False}
 ]
 
-# 3. 설문지 폼 만들기
-with st.form("survey_form"):
-    # 사용자가 선택한 점수를 저장할 리스트
-    user_answers = []
+q1 = questions[0:9]
+q2 = questions[9:18]
+q3 = questions[18:27]
+q4 = questions[27:36]
+q5 = questions[36:45]
 
-    # 질문을 하나씩 웹 화면에 띄우기
-    for q in questions:
-        # 웹에 동그라미 선택 버튼 만들기
-        answer = st.radio(str(q["질문"]), [1, 2, 3, 4, 5], horizontal=True, index=None)
-        user_answers.append((q, answer))
-        st.write("")  # 질문 사이 간격 띄우기
+options_text = ["전혀 아니다", "아니다", "보통이다", "그렇다", "매우 그렇다"]
 
-    # 제출 버튼
-    submitted = st.form_submit_button("결과 보기")
+# 3. 페이지별 질문 렌더링
+if st.session_state.page == 1:
+    with st.form("survey_form_1"):
+        user_answers = []
+        for q in q1:
+            answer = st.radio(str(q["질문"]), options_text, horizontal=True, index=None, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        if st.form_submit_button("다음 페이지로 ➡️"):
+            st.session_state.p1 = user_answers
+            st.session_state.page += 1
+            st.rerun()
 
-# 4. "결과 보기" 버튼을 눌렀을 때 실행될 로직
-if submitted:
-    # 답변을 안 한 문항이 있는지 검사하기
+elif st.session_state.page == 2:
+    with st.form("survey_form_2"):
+        user_answers = []
+        for q in q2:
+            answer = st.radio(str(q["질문"]), options_text, horizontal=True, index=None, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        col1, col2 = st.columns(2)
+        btn_prev = col1.form_submit_button("⬅️ 이전 페이지")
+        btn_next = col2.form_submit_button("다음 페이지로 ➡️")
+        if btn_prev:
+            st.session_state.page -= 1
+            st.rerun()
+        if btn_next:
+            st.session_state.p2 = user_answers
+            st.session_state.page += 1
+            st.rerun()
+
+elif st.session_state.page == 3:
+    with st.form("survey_form_3"):
+        user_answers = []
+        for q in q3:
+            answer = st.radio(str(q["질문"]), options_text, horizontal=True, index=None, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        col1, col2 = st.columns(2)
+        btn_prev = col1.form_submit_button("⬅️ 이전 페이지")
+        btn_next = col2.form_submit_button("다음 페이지로 ➡️")
+        if btn_prev:
+            st.session_state.page -= 1
+            st.rerun()
+        if btn_next:
+            st.session_state.p3 = user_answers
+            st.session_state.page += 1
+            st.rerun()
+
+elif st.session_state.page == 4:
+    with st.form("survey_form_4"):
+        user_answers = []
+        for q in q4:
+            answer = st.radio(str(q["질문"]), options_text, horizontal=True, index=None, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        col1, col2 = st.columns(2)
+        btn_prev = col1.form_submit_button("⬅️ 이전 페이지")
+        btn_next = col2.form_submit_button("다음 페이지로 ➡️")
+        if btn_prev:
+            st.session_state.page -= 1
+            st.rerun()
+        if btn_next:
+            st.session_state.p4 = user_answers
+            st.session_state.page += 1
+            st.rerun()
+
+elif st.session_state.page == 5:
+    with st.form("survey_form_5"):
+        user_answers = []
+        for q in q5:
+            answer = st.radio(str(q["질문"]), options_text, horizontal=True, index=None, key=q["질문"])
+            user_answers.append((q, answer))
+            st.write("")
+        col1, col2 = st.columns(2)
+        btn_prev = col1.form_submit_button("⬅️ 이전 페이지")
+        btn_next = col2.form_submit_button("결과 보기 🚀")
+        if btn_prev:
+            st.session_state.page -= 1
+            st.rerun()
+        if btn_next:
+            st.session_state.p5 = user_answers
+            st.session_state.page += 1
+            st.rerun()
+
+# 4. 결과 보기 화면
+elif st.session_state.page == 6:
+    all_user_answers = st.session_state.p1 + st.session_state.p2 + st.session_state.p3 + st.session_state.p4 + st.session_state.p5
+
+    # 누락된 답변이 있는지 검사
     is_all_answered = True
-    for q, ans in user_answers:
-        if not ans:
+    for q, ans in all_user_answers:
+        if ans == None:
             is_all_answered = False
-            break  # 빈칸을 하나라도 발견하면 더 이상 안 찾고 멈춤
+            break
 
-    # 빈칸이 있다면 경고 메시지 띄우기
     if is_all_answered == False:
-        st.warning("⚠️아직 답변하지 않은 문항이 있습니다. 모든 질문에 답한 후 다시 제출해주세요!")
-
-    # 빈칸이 없다면 점수 계산해서 결과 보여주기
+        st.error("⚠️ 아직 답변하지 않은 문항이 있습니다. 이전 페이지로 돌아가 확인해주세요!")
+        if st.button("⬅️ 이전 페이지로 돌아가기"):
+            st.session_state.page -= 1
+            st.rerun()
     else:
-        # 점수 저장소 초기화
         scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
 
-        for q, ans in user_answers:
-            # 역채점 계산
-            if q["역채점"]:
-                final_score = 6 - ans
+        for q, ans in all_user_answers:
+            if ans == "전혀 아니다": num_ans = 1
+            elif ans == "아니다": num_ans = 2
+            elif ans == "보통이다": num_ans = 3
+            elif ans == "그렇다": num_ans = 4
+            elif ans == "매우 그렇다": num_ans = 5
+
+            if q["역채점"] == True:
+                final_score = 6 - num_ans
             else:
-                final_score = ans
-            # 점수 더하기
+                final_score = num_ans
+
             scores[q["유형"]] += final_score
 
-        # 5. 웹 화면에 결과 예쁘게 띄우기
-        st.write("---")
+        # 상단 축하 메시지
         st.subheader("🎉 당신의 Big5 검사 결과")
         st.success("검사가 성공적으로 완료되었습니다!")
-        st.info(f"🔹개방성 (O) : {scores['O']}/45\n\n"
-                "새로운 경험과 아이디어를 기꺼이 받아들이는 정도입니다. 호기심이 많고 상상력이 풍부하며, 예술적인 아름다움을 잘 느끼는 성향을 나타냅니다.")
-        st.info(f"🔹성실성 (C) : {scores['C']}/45\n\n"
-                "목표를 향해 꾸준하고 계획적으로 노력하는 정도입니다. 책임감이 강하고 규칙을 잘 지키며, 일을 미루지 않고 끝까지 해내는 성향을 나타냅니다.")
-        st.info(f"🔹외향성 (E) : {scores['E']}/45\n\n"
-                "외부 세계와 사람들과의 교류를 통해 에너지를 얻는 정도입니다. 사교적이고 활발하며, 매사에 긍정적인 감정을 자주 느끼는 성향을 나타냅니다.")
-        st.info(f"🔹우호성 (A) : {scores['A']}/45\n\n"
-                "타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아하는 성향을 나타냅니다.")
-        st.info(f"🔹신경성 (N) : {scores['N']}/45\n\n"
-                "스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
+        st.write("")
+        
+        # [UI 개선] 점수 요약(Metric) 한 줄에 나란히 배치
+        col1, col2, col3, col4, col5 = st.columns(5)
+        col1.metric("개방성(O)", f"{scores['O']}점")
+        col2.metric("성실성(C)", f"{scores['C']}점")
+        col3.metric("외향성(E)", f"{scores['E']}점")
+        col4.metric("우호성(A)", f"{scores['A']}점")
+        col5.metric("신경성(N)", f"{scores['N']}점")
         st.write("---")
-        st.subheader("🎉 다섯 가지 성향 비교")
+
+        # [UI 개선] Custom CSS를 활용한 결과 카드와 프로그레스 바 적용
+        descriptions = {
+            "O": ("개방성", "새로운 경험과 아이디어를 기꺼이 받아들이는 정도입니다. 호기심이 많고 상상력이 풍부하며, 예술적인 아름다움을 잘 느끼는 성향을 나타냅니다."),
+            "C": ("성실성", "목표를 향해 꾸준하고 계획적으로 노력하는 정도입니다. 책임감이 강하고 규칙을 잘 지키며, 일을 미루지 않고 끝까지 해내는 성향을 나타냅니다."),
+            "E": ("외향성", "외부 세계와 사람들과의 교류를 통해 에너지를 얻는 정도입니다. 사교적이고 활발하며, 매사에 긍정적인 감정을 자주 느끼는 성향을 나타냅니다."),
+            "A": ("우호성", "타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아하는 성향을 나타냅니다."),
+            "N": ("신경성", "스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
+        }
+
+        for key in ["O", "C", "E", "A", "N"]:
+            # 카드 HTML 출력
+            st.markdown(f"""
+            <div class="result-card">
+                <div class="result-title">🔹 {descriptions[key][0]} ({key}) : {scores[key]} / 45점</div>
+                <div class="result-desc">{descriptions[key][1]}</div>
+            </div>
+            """, unsafe_allow_html=True)
+            # 게이지 바 출력 (0.0 ~ 1.0 비율로 계산)
+            st.progress(scores[key] / 45.0)
+            st.write("")
+
+        st.write("---")
+        st.subheader("📊 다섯 가지 성향 비교")
         scores1 = list(scores.items())
-        scores1.sort(reverse=True, key=lambda x: x[1]) 
-        st.info(f"{scores1[0][0]} > {scores1[1][0]} > {scores1[2][0]} > {scores1[3][0]} > {scores1[4][0]}")
+        scores1.sort(reverse=True, key=lambda x: x[1])
+        st.info(f"**{scores1[0][0]} > {scores1[1][0]} > {scores1[2][0]} > {scores1[3][0]} > {scores1[4][0]}**")
+        
+        st.write("")
+        if st.button("처음부터 다시 검사하기 🔄"):
+            st.session_state.page = 1
+            st.session_state.p1 = []
+            st.session_state.p2 = []
+            st.session_state.p3 = []
+            st.session_state.p4 = []
+            st.session_state.p5 = []
+            st.rerun()
