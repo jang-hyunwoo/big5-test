@@ -122,6 +122,6 @@ if submitted:
                 "스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
         st.write("---")
         st.subheader("🎉 다섯 가지 성향 비교")
-        scores1 = list(scores)
+        scores1 = list(scores.items())
         scores1.sort(reverse = True)
         st.info(f"{scores1[0]}>{scores1[1]}>{scores1[2]}>{scores1[3]}>{scores1[4]}")
