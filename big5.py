@@ -127,7 +127,7 @@ if submitted:
         df_scores = pd.DataFrame([{"항목": k, "점수": v} for k, v in scores.items()])
         chart = alt.Chart(df_scores).mark_bar(color="#F18AF8").encode(
             x=alt.X('항목:N', sort=None, axis=alt.Axis(labelAngle=0)),
-            y=alt.Y('점수:Q', scale=alt.Scale(domain=[0, 45]), axis=alt.Axis(titleAngle=0, titleAlign='right', titleY=0))
+            y=alt.Y('점수:Q', scale=alt.Scale(domain=[0, 45]), axis=alt.Axis(titleAngle=0, titleAlign='right', titleY=-15))
         ).properties(height=400)
         st.altair_chart(chart, use_container_width=True)
         
