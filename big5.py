@@ -119,4 +119,4 @@ if submitted:
                 f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 점수가 높을수록 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아합니다.")
         st.info(f"🔹신경성 (N) : {scores['N']}/45\n\n"
                 f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 쉽게 느낍니다.")
-        st.bar_chart(data=scores, x=None, y=None, x_label='항목', y_label='점수', color="#BAFF1A", horizontal=False, sort=False, stack=None, width="stretch", height='content', use_container_width=None, alt=None)
+        st.bar_chart(data=scores, x=None, y=None, x_label='항목', y_label='점수', color=None, horizontal=False, sort=False, stack=None, width="stretch", height='content', use_container_width=None, alt=None)
