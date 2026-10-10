@@ -2,6 +2,57 @@ import streamlit as st
 
 # 1. 웹 화면 제목과 설명
 st.set_page_config(page_title="Big5 심리검사", page_icon="📊")
+st.markdown("""
+<style>
+    /* 1. 라디오 버튼 글씨 크기 조절 */
+    div[data-testid="stRadio"] > label > div > p {
+        font-size: 18px !important;
+        font-weight: bold;
+    }
+    div[data-testid="stRadio"] > div > label > div > div > p {
+        font-size: 16px !important;
+    }
+    
+    /* 2. 이전/다음 버튼 예쁘게 디자인 */
+    div.stButton > button:first-child, div[data-testid="stFormSubmitButton"] > button {
+        background-color: #4F46E5 !important;
+        color: white !important;
+        font-size: 16px !important;
+        font-weight: bold !important;
+        border-radius: 8px !important;
+        padding: 10px 20px !important;
+        border: none !important;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+    div.stButton > button:first-child:hover, div[data-testid="stFormSubmitButton"] > button:hover {
+        background-color: #4338CA !important;
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    }
+
+    /* 3. 결과 화면 카드 디자인 */
+    .result-card {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 8px;
+        margin-top: 16px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        border-left: 6px solid #4F46E5;
+    }
+    .result-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+    .result-desc {
+        font-size: 14px;
+        color: #4B5563;
+        line-height: 1.6;
+    }
+</style>
+""", unsafe_allow_html=True)
 st.title("📊 Big5 심리검사 프로그램")
 st.write("각 질문을 읽고 응답해주세요(1: 전혀 아니다 ~ 5: 매우 그렇다)")
 st.write("---")
