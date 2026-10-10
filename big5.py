@@ -74,10 +74,10 @@ with st.form("survey_form"):
         # 웹에 동그라미 선택 버튼 만들기
         answer = st.radio(str(q["질문"]), [1, 2, 3, 4, 5], horizontal=True, index=None)
         user_answers.append((q, answer))
-        st.divider()  # 질문 사이 줄로 나누기
+        st.write("")  # 질문 사이 간격
 
     # 제출 버튼
-    submitted = st.form_submit_button("결과 보기")
+    submitted = st.form_submit_button("제출")
 
 # 4. "결과 보기" 버튼을 눌렀을 때 실행될 로직
 if submitted:
@@ -107,7 +107,7 @@ if submitted:
             scores[q["유형"]] += final_score
 
         # 5. 웹 화면에 결과 예쁘게 띄우기
-        st.write("---")
+        st.divider()
         st.subheader("🎉 당신의 Big5 검사 결과")
         st.success("검사가 성공적으로 완료되었습니다!")
 
@@ -121,4 +121,4 @@ if submitted:
                 f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아하는 성향을 나타냅니다.")
         st.info(f"🔹신경성 (N) : {scores['N']}/45\n\n"
                 f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
-        st.bar_chart(scores)
+        st.bar_chart(data=None, *, x=None, y=None, x_label=None, y_label=None, color=None, horizontal=False, sort=True, stack=None, width="stretch", height="content", use_container_width=None, alt=None)
