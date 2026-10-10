@@ -110,13 +110,13 @@ if submitted:
         st.divider()
         st.subheader("🎉 당신의 Big5 검사 결과")
         st.info(f"🔹개방성 (O) : {scores['O']}/45\n\n"
-                f"새로운 경험과 아이디어를 기꺼이 받아들이는 정도입니다. 호기심이 많고 상상력이 풍부하며, 예술적인 아름다움을 잘 느끼는 성향을 나타냅니다.")
+                f"새로운 경험과 아이디어를 기꺼이 받아들이는 정도입니다. 점수가 높을수록 호기심이 많고 상상력이 풍부하며, 예술적인 아름다움을 잘 느낍니다.")
         st.info(f"🔹성실성 (C) : {scores['C']}/45\n\n"
-                f"목표를 향해 꾸준하고 계획적으로 노력하는 정도입니다. 책임감이 강하고 규칙을 잘 지키며, 일을 미루지 않고 끝까지 해내는 성향을 나타냅니다.")
+                f"목표를 향해 꾸준하고 계획적으로 노력하는 정도입니다. 점수가 높을수록 책임감이 강하고 규칙을 잘 지키며, 일을 미루지 않고 끝까지 해냅니다.")
         st.info(f"🔹외향성 (E) : {scores['E']}/45\n\n"
-                f"외부 세계와 사람들과의 교류를 통해 에너지를 얻는 정도입니다. 사교적이고 활발하며, 매사에 긍정적인 감정을 자주 느끼는 성향을 나타냅니다.")
+                f"외부 세계와 사람들과의 교류를 통해 에너지를 얻는 정도입니다. 점수가 높을수록 사교적이고 활발하며, 매사에 긍정적인 감정을 자주 느낍니다.")
         st.info(f"🔹우호성 (A) : {scores['A']}/45\n\n"
-                f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아하는 성향을 나타냅니다.")
+                f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 점수가 높을수록 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아합니다.")
         st.info(f"🔹신경성 (N) : {scores['N']}/45\n\n"
-                f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
-        st.bar_chart(data=scores, x=None, y=None, x_label='항목', y_label='점수', color="#FFFFFF", horizontal=False, sort=False, stack=None, width="stretch", height='content', use_container_width=None, alt=None)
+                f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 쉽게 느낍니다.")
+        st.bar_chart(data=scores, x=None, y=None, x_label='항목', y_label='점수', color="#BAFF1A", horizontal=False, sort=False, stack=None, width="stretch", height='content', use_container_width=None, alt=None)
