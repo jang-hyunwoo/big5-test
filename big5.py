@@ -89,7 +89,7 @@ if submitted:
             break  # 빈칸을 하나라도 발견하면 더 이상 안 찾고 멈춤
 
     # 빈칸이 있다면 경고 메시지 띄우기
-    if is_all_answered == False:
+    if not is_all_answered:
         st.warning("⚠️아직 답변하지 않은 문항이 있습니다. 모든 질문에 답한 후 다시 제출해주세요!")
 
     # 빈칸이 없다면 점수 계산해서 결과 보여주기
