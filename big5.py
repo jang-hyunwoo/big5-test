@@ -1,10 +1,10 @@
 import streamlit as st
 
 # 1. 웹 화면 제목과 설명
-st.set_page_config(page_title="Big5 심리검사", page_icon="📊")
+st.set_page_config(page_title="Big5 심리검사", page_icon=":psychology:")
 st.title("📊 Big5 심리검사 프로그램")
-st.markdown("#### 각 질문을 읽고 응답해주세요(1: 전혀 아니다 ~ 5: 매우 그렇다)")
-st.write("---")
+st.write("각 질문을 읽고 응답해주세요(1: 전혀 아니다 ~ 5: 매우 그렇다)")
+st.divider()
 
 # 2. 질문 목록 만들기 (총 45문항)
 questions = [
@@ -74,7 +74,7 @@ with st.form("survey_form"):
         # 웹에 동그라미 선택 버튼 만들기
         answer = st.radio(str(q["질문"]), [1, 2, 3, 4, 5], horizontal=True, index=None)
         user_answers.append((q, answer))
-        st.write("")  # 질문 사이 간격 띄우기
+        st.divider()  # 질문 사이 줄로 나누기
 
     # 제출 버튼
     submitted = st.form_submit_button("결과 보기")
@@ -121,3 +121,4 @@ if submitted:
                 f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아하는 성향을 나타냅니다.")
         st.info(f"🔹신경성 (N) : {scores['N']}/45\n\n"
                 f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 비교적 쉽게 느낄 수 있습니다.")
+        st.bar_chart(scores)
