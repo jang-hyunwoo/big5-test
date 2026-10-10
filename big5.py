@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import altair as alt
 
 # 1. 웹 화면 제목과 설명
 st.set_page_config(page_title="Big5 심리검사", page_icon=":psychology:")
@@ -119,4 +121,13 @@ if submitted:
                 f"타인과 조화롭게 지내고 타인을 배려하는 정도입니다. 점수가 높을수록 다른 사람의 마음에 깊이 공감하고, 기꺼이 양보하며 협력하는 것을 좋아합니다.")
         st.info(f"🔹신경성 (N) : {scores['N']}/45\n\n"
                 f"스트레스나 자극에 얼마나 민감하게 반응하는지를 나타냅니다. 점수가 높을수록 주변 환경 변화에 예민하고 불안이나 걱정을 쉽게 느낍니다.")
-        st.bar_chart(data=scores, x=None, y=None, x_label='항목', y_label='점수', color=None, horizontal=False, sort=False, stack=None, width="stretch", height='content', use_container_width=None, alt=None)
+        
+        st.divider()
+        st.subheader("📊 항목별 점수 차트")
+        df_scores = pd.DataFrame([{"항목": k, "점수": v} for k, v in scores.items()])
+        chart = alt.Chart(df_scores).mark_bar(color="#F18AF8").encode(
+            x=alt.X('항목:N', sort=None, axis=alt.Axis(labelAngle=0)),
+            y=alt.Y('점수:Q', scale=alt.Scale(domain=[0, 45]), axis=alt.Axis(titleAngle=0, titleAlign='right', titleY=-15))
+        ).properties(height=400)
+        st.altair_chart(chart, use_container_width=True)
+        
